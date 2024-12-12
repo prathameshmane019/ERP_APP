@@ -409,7 +409,7 @@ export default function ProfileScreen({ navigation }) {
             <Button 
               mode="contained" 
               onPress={handleSaveProfile}
-              style={styles.modalButton}
+              style={styles.modalButtonSave}
             >
               Save
             </Button>
@@ -510,7 +510,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 16,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: theme.colors.primaryContainer,
   },
   profileCard: {
     marginBottom: 16,
@@ -623,7 +623,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: theme.colors.backdrop,
   },
   modalContent: {
     width: '90%',
@@ -650,8 +650,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20,
+    // backgroundColor:theme.colors.primary
+
   },
   modalButton: {
     width: '48%',
+
+  },
+  modalButtonSave: {
+    width: '48%',
+    backgroundColor:theme.colors.primary
+    
   }
 });

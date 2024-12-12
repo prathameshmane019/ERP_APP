@@ -280,6 +280,10 @@ export default function TakeAttendance() {
       showNotification("Failed to submit attendance", "error");
     
     }
+    finally{
+      setLoading(false);
+
+    }
   }, [selectedSubject, selectedSessions, subjectDetails, students, selectedKeys, selectedBatch, selectedDate, pointsDiscussed, selectedContentIds]);
 
   const [isFormVisible, setIsFormVisible] = useState(true);

@@ -12,7 +12,7 @@ export default function Header ({ title }) {
       <IconButton
         icon="arrow-left"
         size={24}
-        onPress={() => router.replace('')}
+        onPress={() => router.replace('/')}
         iconColor={theme.colors.surface}
       />
       <Text variant="headlineMedium" style={styles.title}>{title}</Text>

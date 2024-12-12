@@ -123,7 +123,7 @@ const ResetPasswordScreen = () => {
           <View style={styles.buttonContainer}>
             <Button
               mode="outlined"
-              onPress={() => router.replace('')}
+              onPress={() => router.replace('/')}
               style={styles.cancelButton}
               contentStyle={styles.buttonContent}
               labelStyle={styles.buttonLabel}

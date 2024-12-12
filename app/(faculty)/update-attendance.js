@@ -9,8 +9,8 @@ import TGSessionContent from '../components/TGSession';
 import CourseContent from '../components/CourseContent';
 import CollapsibleCard from '../components/card';
 import getUserData from '../utils/getUser';
-import { AttendanceLoader } from '../components/Loader';
-import { AttendanceNotification } from '../components/AttendanceAlert';
+import AttendanceNotification from '../components/AttendanceAlert';
+import AttendanceLoader from '../components/Loader';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -209,6 +209,8 @@ export default function UpdateAttendance() {
         keyExtractor={() => 'key'}
         renderItem={() => null}
       />
+      <AttendanceLoader isVisible={loading} />
+
       {notification && (
         <AttendanceNotification
           message={notification.message}

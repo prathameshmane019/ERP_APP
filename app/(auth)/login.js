@@ -263,7 +263,7 @@ export default function LoginScreen() {
     console.log(role);
     if (role === 'faculty') {
       router.replace('/(faculty)/menu');
-      router.back()
+      // router.back()
     } else if (role === 'student') {
       router.replace('/view');
     }

@@ -12,8 +12,9 @@ const NotFoundScreen = () => {
 
 
     const goBack = () => {
-        router.replace("")
+        router.replace("/")
     };
+    
     return (
         <View style={styles.container}>
             <View style={styles.content}>
