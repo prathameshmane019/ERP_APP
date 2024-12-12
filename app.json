@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.maneprathamesh019.erpapp"
     },
     "web": {
       "favicon": "./assets/icon.png"
