@@ -9,10 +9,21 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "API_URL": "https://erp-attendance.vercel.app"
+      },
+      "channel": "preview"
     },
     "production": {
-      "autoIncrement": true
+      "android": {
+        "buildType": "apk",
+        "image": "latest"
+      },
+      "env": {
+        "API_URL": "https://erp-attendance.vercel.app"
+      },
+      "channel": "production"
     }
   },
   "submit": {
