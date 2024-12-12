@@ -4,7 +4,7 @@ import { Text } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Briefcase, Calendar, Clock, User, Mail, BookOpen, ChevronRight } from 'lucide-react-native';
-import { theme } from '../../theme';
+import  theme  from '../../theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');

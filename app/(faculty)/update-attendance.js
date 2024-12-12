@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Provider as PaperProvider, Button, Text } from 'react-native-paper';
 import axios from 'axios';
-import { theme } from '../theme';
+import theme from '../theme';
 import AttendanceForm from '../components/AttendanceForm';
 import StudentList from '../components/StudentListTable';
 import TGSessionContent from '../components/TGSession';
@@ -24,7 +24,7 @@ export default function UpdateAttendance() {
   const [selectedBatch, setSelectedBatch] = useState(null);
   const [profile, setProfile] = useState(null);
   const [subjectDetails, setSubjectDetails] = useState(null);
-  const [availableSessions, setAvailableSessions] = useState([1,2,3,4,5,6,7]);
+  const [availableSessions, setAvailableSessions] = useState([1, 2, 3, 4, 5, 6, 7]);
   const [pointInputs, setPointInputs] = useState([{ id: Date.now(), value: '' }]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [attendanceRecord, setAttendanceRecord] = useState(null);
@@ -55,7 +55,7 @@ export default function UpdateAttendance() {
           session
         }
       });
-      
+
       const { subject, students, attendanceRecord } = response.data;
       setSubjectDetails(subject);
       setStudents(students || []);
@@ -205,7 +205,7 @@ export default function UpdateAttendance() {
           />
         )}
         ListFooterComponent={renderContent}
-        data={[]} 
+        data={[]}
         keyExtractor={() => 'key'}
         renderItem={() => null}
       />
@@ -213,8 +213,8 @@ export default function UpdateAttendance() {
 
       {notification && (
         <AttendanceNotification
-          message={notification.message}
-          type={notification.type}
+          message={notification.message || ''}
+          type={notification.type || 'info'}
           onDismiss={() => setNotification(null)}
         />
       )}

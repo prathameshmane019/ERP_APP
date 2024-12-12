@@ -6,7 +6,7 @@ import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import axios from 'axios';
 import getUserData from '../utils/getUser';
-import { theme } from '../theme';
+import theme from '../theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import StudentList from '../components/StudentListTable';
 import CollapsibleCard from '../components/card';
@@ -28,7 +28,7 @@ const AttendanceForm = ({
   handleTakeAttendance,
   profile
 }) => {
-  
+
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const handleSessionToggle = (session) => {
     setSelectedSessions(prevSessions => {
@@ -196,7 +196,7 @@ export default function TakeAttendance() {
 
 
   const fetchAvailableSessions = useCallback(async (subjectId, batchId, date) => {
-   setLoading(true)
+    setLoading(true)
     try {
 
       const response = await axios.get(`${API_URL}/api/utils/available-sessions?subjectId=${subjectId}&batchId=${batchId || ''}&date=${date.toISOString().split('T')[0]}`);
@@ -204,8 +204,8 @@ export default function TakeAttendance() {
     } catch (error) {
       console.error('Error fetching available sessions:', error);
     }
-    finally{
-   setLoading(false)
+    finally {
+      setLoading(false)
 
     }
   }, []);
@@ -251,6 +251,8 @@ export default function TakeAttendance() {
     const presentStudentIds = Array.from(selectedKeys);
     const attendanceData = {
       subject: selectedSubject,
+      institute: profile.institute._id,
+      subType: subjectDetails?.subType,
       date: selectedDate.toISOString().split('T')[0],
       session: selectedSessions,
       attendanceRecords: students.map(student => ({
@@ -265,9 +267,13 @@ export default function TakeAttendance() {
 
     setLoading(true);
     try {
-      const response = await axios.put(`${API_URL}/api/attendance`, attendanceData);
+      console.log(attendanceData);
+
+      const response = await axios.put(`${API_URL}/api/v2/attendance`, attendanceData);
+      console.log(response);
+
       showNotification("Attendance submitted successfully", "success");
-     
+
       // Reset form
       setSelectedSubject("");
       setSelectedBatch(null);
@@ -278,9 +284,9 @@ export default function TakeAttendance() {
     } catch (error) {
       console.error('Failed to submit attendance:', error);
       showNotification("Failed to submit attendance", "error");
-    
+
     }
-    finally{
+    finally {
       setLoading(false);
 
     }
@@ -350,8 +356,8 @@ export default function TakeAttendance() {
       <AttendanceLoader isVisible={loading} />
       {notification && (
         <AttendanceNotification
-          message={notification.message}
-          type={notification.type}
+          message={notification.message || ''}
+          type={notification.type || 'info'}
           onDismiss={() => setNotification(null)}
         />
       )}
@@ -384,6 +390,8 @@ const styles = StyleSheet.create({
   picker: {
     flex: 1,
     marginLeft: theme.spacing.sm,
+
+
   },
   dateButton: {
     borderColor: theme.colors.primary,
@@ -510,7 +518,7 @@ const styles = StyleSheet.create({
     marginLeft: theme.spacing.xs,
   },
 
-  
+
   // Header styles
   tableHeader: {
     flexDirection: 'row',
@@ -532,5 +540,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.colors.border,
   },
- 
+
 });

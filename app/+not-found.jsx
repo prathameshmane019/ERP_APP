@@ -12,20 +12,13 @@ const NotFoundScreen = () => {
 
 
     const goBack = () => {
-        router.replace("/")
+        router.replace("/menu")
     };
     
     return (
         <View style={styles.container}>
             <View style={styles.content}>
-                {/* 404 SVG Illustration */}
-                {/* <Svg width={windowWidth * 0.6} height={windowWidth * 0.6} viewBox="0 0 200 200">
-          <Circle cx="100" cy="100" r="96" fill="#F3F4F6" />
-          <Path d="M65 80h-8V60h8v20zm0 40h-8V100h8v20zm28-40h-8V60h8v20zm0 40h-8V100h8v20zm27-20h-8v20h8v-20zm28-20h-8v40h8V80z" fill="#6B7280"/>
-          <Circle cx="85" cy="130" r="4" fill="#6B7280"/>
-          <Circle cx="115" cy="130" r="4" fill="#6B7280"/>
-          <Path d="M85 150c0-8.284 13.432-15 30-15s30 6.716 30 15" stroke="#6B7280" strokeWidth="4" strokeLinecap="round"/>
-        </Svg> */}
+                
                 <Image
                     source={require('../assets/not-found.png')}
                     style={styles.moduleIcon}

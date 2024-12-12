@@ -7,6 +7,7 @@ import {
   StyleSheet 
 } from 'react-native';
 import { useUpdateContext } from '.././UpdateContext';
+import  theme  from '../theme';
 
 const UpdateScreen = () => {
   const { updateInfo, checkForUpdates, performUpdate } = useUpdateContext();
@@ -96,7 +97,7 @@ const UpdateScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.inverseOnSurface,
     paddingHorizontal: 16,
     paddingVertical: 24
   },
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
   },
   checkButton: {
     flex: 1,
-    backgroundColor: '#3498DB',
+    backgroundColor: theme.colors.primary,
     padding: 15,
     borderRadius: 10,
     marginRight: 10,
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
   },
   updateButton: {
     flex: 1,
-    backgroundColor: '#2ECC71',
+    backgroundColor: theme.colors.primary,
     padding: 15,
     borderRadius: 10,
     alignItems: 'center'

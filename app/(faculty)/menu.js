@@ -7,13 +7,12 @@ import { MotiView } from 'moti';
 import Animated, { FadeInUp, FadeInRight } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import AuthContext from '../AuthContext';
-import { theme } from '../theme';
-
+import theme from '../theme';
 const { width, height } = Dimensions.get('window');
 const CARD_WIDTH = width - 32;
 const CARD_HEIGHT = height * 0.2;
 
-const ModuleSelectionScreen = () => {
+export default function ModuleSelectionScreen ()  {
   const router = useRouter();
   const { user, logout } = useContext(AuthContext);
 
@@ -246,5 +245,3 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
 });
-
-export default ModuleSelectionScreen;

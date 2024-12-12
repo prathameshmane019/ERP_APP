@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, IconButton } from 'react-native-paper';
-import { theme } from '../theme';
+import  theme  from '../theme';
 import { useRouter } from 'expo-router';
 
 export default function Header ({ title }) {

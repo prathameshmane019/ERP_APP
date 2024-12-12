@@ -3,11 +3,11 @@ import { View, ActivityIndicator, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import getUserData from './utils/getUser';
 import AttendanceLoader from './components/Loader';
-
 export default function HomeScreen() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+ 
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -39,7 +39,7 @@ export default function HomeScreen() {
     }
   }, [loading, user, router]);
 
-  return (
+  return ( 
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <AttendanceLoader isVisible={true}/>
     </View>

@@ -1,34 +1,34 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  StyleSheet, 
-  KeyboardAvoidingView, 
-  Platform, 
+import {
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
   TouchableOpacity,
   StatusBar,
   Dimensions
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { 
-  Text, 
-  TextInput, 
+import {
+  Text,
+  TextInput,
   Button,
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
-import { theme } from '../theme';
+import theme from '../theme';
 import AttendanceNotification from '../components/AttendanceAlert';
 import AttendanceLoader from '../components/Loader';
 
 const { width } = Dimensions.get('window');
 
-const ResetPasswordScreen = () => {
+export default function ResetPasswordScreen() {
   const [identifier, setIdentifier] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showOldPassword, setShowOldPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false); 
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [notification, setNotification] = useState(null);
 
   const showNotification = (message, type) => {
@@ -41,30 +41,30 @@ const ResetPasswordScreen = () => {
 
   const handleSubmit = async () => {
 
-    if(!identifier && !oldPassword && !newPassword){
-      showNotification( 'Please enter username and passwords', 'error'  )
-      return null 
+    if (!identifier && !oldPassword && !newPassword) {
+      showNotification('Please enter username and passwords', 'error')
+      return null
     }
     setIsLoading(true);
     try {
-     
+
       const response = await axios.post(`${API_URL}/api/reset-password`, { identifier, oldPassword, newPassword });
       if (response.status === 200) {
-        showNotification(  'Password reset successfully', 'success'  );
+        showNotification('Password reset successfully', 'success');
         setTimeout(() => router.push("/login"), 3000);
       } else {
-        showNotification(response.data.message || 'Password reset failed',  'error' );
+        showNotification('Password reset failed', 'error');
       }
     } catch (error) {
       console.error('Failed to reset password', error);
-      showNotification('Failed to reset password',  'error');
+      showNotification('Failed to reset password', 'error');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
@@ -95,8 +95,8 @@ const ResetPasswordScreen = () => {
             mode="outlined"
             left={<TextInput.Icon icon="lock" />}
             right={
-              <TextInput.Icon 
-                icon={showOldPassword ? "eye-off" : "eye"} 
+              <TextInput.Icon
+                icon={showOldPassword ? "eye-off" : "eye"}
                 onPress={() => setShowOldPassword(!showOldPassword)}
               />
             }
@@ -112,8 +112,8 @@ const ResetPasswordScreen = () => {
             mode="outlined"
             left={<TextInput.Icon icon="lock-reset" />}
             right={
-              <TextInput.Icon 
-                icon={showNewPassword ? "eye-off" : "eye"} 
+              <TextInput.Icon
+                icon={showNewPassword ? "eye-off" : "eye"}
                 onPress={() => setShowNewPassword(!showNewPassword)}
               />
             }
@@ -147,11 +147,10 @@ const ResetPasswordScreen = () => {
       </View>
 
       <AttendanceLoader isVisible={isLoading} />
-      
       {notification && (
         <AttendanceNotification
-          message={notification.message}
-          type={notification.type}
+          message={notification.message || ''}
+          type={notification.type || 'info'}
           onDismiss={() => setNotification(null)}
         />
       )}
@@ -209,5 +208,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ResetPasswordScreen;
 

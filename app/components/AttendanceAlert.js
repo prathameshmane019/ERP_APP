@@ -5,7 +5,7 @@ import * as Haptics from 'expo-haptics';
 import { IconButton } from 'react-native-paper';
 
 export default function AttendanceNotification  ({ 
-  message, 
+  message='', 
   type = 'success', 
   duration = 3000,
   onDismiss 

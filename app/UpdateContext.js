@@ -45,7 +45,7 @@ export const UpdateProvider = ({ children }) => {
     } catch (error) {
       setUpdateInfo(prev => ({
         ...prev,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error?.message : 'Unknown error'
       }));
     }
   };
@@ -57,7 +57,7 @@ export const UpdateProvider = ({ children }) => {
     } catch (error) {
       setUpdateInfo(prev => ({
         ...prev,
-        error: error instanceof Error ? error.message : 'Update failed'
+        error: error instanceof Error ? error?.message : 'Update failed'
       }));
     }
   };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
-import { theme } from '../theme';
+import theme  from '../theme';
 import { Button, Card, TextInput, Title } from 'react-native-paper';
 import { View } from 'moti';
 

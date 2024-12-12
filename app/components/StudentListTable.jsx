@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, ScrollView, Alert, StyleSheet, TextInput, Pressable } from 'react-native';
 import { Checkbox, Text, Title } from 'react-native-paper';
-import { theme } from '../theme';
+import  theme  from '../theme';
 import CollapsibleCard from './card';
 // Improved Student Row Component
 const StudentRow = React.memo(({ student, isSelected, onToggle }) => (

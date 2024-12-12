@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { List, Checkbox, Text } from 'react-native-paper';
-import { theme } from '../theme';
+import theme  from '../theme';
 
 const CourseContent = ({
   subjectDetails,

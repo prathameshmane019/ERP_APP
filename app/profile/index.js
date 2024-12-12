@@ -1,257 +1,4 @@
-// import React, { useState, useEffect, useContext, useCallback } from 'react';
-// import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
-// import {
-//   Provider as PaperProvider,
-//   Card,
-//   Title,
-//   Paragraph,
-//   Button,
-//   ActivityIndicator,
-//   Appbar,
-//   Avatar,
-//   Divider,
-// } from 'react-native-paper';
-// import { Picker } from '@react-native-picker/picker';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import axios from 'axios';
-// import AuthContext from '../AuthContext';
-
-// const API_URL = process.env.EXPO_PUBLIC_API_URL;
-
-// const getCurrentAcademicYear = () => {
-//   const currentDate = new Date();
-//   const currentYear = currentDate.getFullYear();
-//   const currentMonth = currentDate.getMonth();
-//   const academicYearStart = currentMonth >= 6 ? currentYear : currentYear - 1;
-//   const academicYearEnd = academicYearStart + 1;
-//   return `${academicYearStart}-${academicYearEnd}`;
-// };
-
-// const getAcademicYears = (count = 5) => {
-//   const currentYear = new Date().getFullYear();
-//   const years = [];
-//   for (let i = 0; i < count; i++) {
-//     const startYear = currentYear - i;
-//     const endYear = startYear + 1;
-//     years.push(`${startYear}-${endYear}`);
-//   }
-//   return years;
-// };
-
-// export default function ProfileScreen({ navigation }) {
-//   const { user, logout } = useContext(AuthContext);
-//   const [currentYear, setCurrentYear] = useState(getCurrentAcademicYear());
-//   const [selectedSemester, setSelectedSemester] = useState(user?.sem || "sem1");
-//   const [subjects, setSubjects] = useState([]);
-//   const [loading, setLoading] = useState(false);
-//   const [refreshing, setRefreshing] = useState(false);
-
-//   // console.log("User Profile:",user);
-  
-//   const loadSubjects = useCallback(async () => {
-//     if (!user || !user._id) return;
-
-//     try {
-//       setLoading(true);
-//       const response = await axios.get(`${API_URL}/api/v2/app-subjects`, {
-//         params: {
-//           facultyId: user._id,
-//           academicYear: currentYear,
-//           sem: selectedSemester,
-//           institute:user.institute
-//         }
-//       });
-// console.log(response.data);
-
-//       const fetchedSubjects = response.data || [];
-//       setSubjects(fetchedSubjects);
-      
-//       // Cache subjects in AsyncStorage
-//       await AsyncStorage.setItem(
-//         `faculty_subjects_${user.id}_${currentYear}_${selectedSemester}`, 
-//         JSON.stringify(fetchedSubjects)
-//       );
-//     } catch (error) {
-//       console.error('Error loading subjects:', error);
-//       // Attempt to retrieve cached subjects
-//       try {
-//         const cachedSubjects = await AsyncStorage.getItem(
-//           `faculty_subjects_${user.id}_${currentYear}_${selectedSemester}`
-//         );
-//         if (cachedSubjects) {
-//           setSubjects(JSON.parse(cachedSubjects));
-//         }
-//       } catch (storageError) {
-//         console.error('Error retrieving cached subjects:', storageError);
-//       }
-//       alert('Failed to load subjects. Please check your connection.');
-//     } finally {
-//       setLoading(false);
-//       setRefreshing(false);
-//     }
-//   }, [user, currentYear, selectedSemester]);
-
-//   useEffect(() => {
-//     loadSubjects();
-//   }, [loadSubjects]);
-
-//   const onRefresh = useCallback(() => {
-//     setRefreshing(true);
-//     loadSubjects();
-//   }, [loadSubjects]);
-
-//   const handleLogout = async () => {
-//     await logout();
-//   };
-
-//   const renderProfileInfo = () => {
-//     if (user.role === 'faculty') {
-//       return (
-//         <>
-//           <Paragraph>Faculty ID: {user.id}</Paragraph>
-//           <Paragraph>Email: {user.email}</Paragraph>
-//           <Paragraph>Department: {user.department}</Paragraph>
-//           <Paragraph>Current Year: {user.currentYear || 'N/A'}</Paragraph>
-//           <Paragraph>Current Semester: {user.sem || 'N/A'}</Paragraph>
-//         </>
-//       );
-//     }
-//     return null;
-//   };
-
-//   return (
-//     <PaperProvider>
-//       <Appbar.Header>
-//         <Appbar.Content title="Profile" />
-//         <Appbar.Action icon="logout" onPress={handleLogout} />
-//       </Appbar.Header>
-//       <ScrollView 
-//         contentContainerStyle={styles.container}
-//         refreshControl={
-//           <RefreshControl
-//             refreshing={refreshing}
-//             onRefresh={onRefresh}
-//           />
-//         }
-//       >
-//         <Card style={styles.card}>
-//           <Card.Content>
-//             <View style={styles.avatarContainer}>
-//               <Avatar.Icon size={80} icon="account" />
-//             </View>
-//             <Title style={styles.name}>{user?.name}</Title>
-//             <Paragraph style={styles.role}>{user?.role}</Paragraph>
-//             <Divider style={styles.divider} />
-//             {renderProfileInfo()}
-//           </Card.Content>
-//         </Card>
-
-//         <Card style={styles.card}>
-//           <Card.Content>
-//             <Title>Academic Information</Title>
-//             <View style={styles.pickerContainer}>
-//               <Paragraph>Academic Year:</Paragraph>
-//               <Picker
-//                 selectedValue={currentYear}
-//                 onValueChange={(itemValue) => setCurrentYear(itemValue)}
-//                 style={styles.picker}
-//               >
-//                 {getAcademicYears().map((year) => (
-//                   <Picker.Item key={year} label={year} value={year} />
-//                 ))}
-//               </Picker>
-//             </View>
-//             <View style={styles.pickerContainer}>
-//               <Paragraph>Semester:</Paragraph>
-//               <Picker
-//                 selectedValue={selectedSemester}
-//                 onValueChange={(itemValue) => setSelectedSemester(itemValue)}
-//                 style={styles.picker}
-//               >
-//                 <Picker.Item label="Semester 1" value="sem1" />
-//                 <Picker.Item label="Semester 2" value="sem2" />
-//               </Picker>
-//             </View>
-//           </Card.Content>
-//         </Card>
-
-//         <Card style={styles.card}>
-//           <Card.Content>
-//             <Title>Assigned Subjects</Title>
-//             {loading ? (
-//               <ActivityIndicator size="large" style={styles.loadingIndicator} />
-//             ) : subjects.length > 0 ? (
-//               subjects.map((subject, index) => (
-//                 <View key={index} style={styles.subjectItem}>
-//                   <Paragraph style={styles.subjectName}>{subject.name}</Paragraph>
-//                   <Paragraph style={styles.subjectDetails}>
-//                     {subject.id} | {subject.class.id || 'No Class'} | {subject.subType}
-//                   </Paragraph>
-//                 </View>
-//               ))
-//             ) : (
-//               <Paragraph>No subjects assigned for the selected academic year and semester.</Paragraph>
-//             )}
-//           </Card.Content>
-//         </Card>
-//       </ScrollView>
-//     </PaperProvider>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flexGrow: 1,
-//     padding: 16,
-//   },
-//   card: {
-//     marginBottom: 16,
-//   },
-//   avatarContainer: {
-//     alignItems: 'center',
-//     marginBottom: 16,
-//   },
-//   name: {
-//     textAlign: 'center',
-//     fontSize: 24,
-//     fontWeight: 'bold',
-//   },
-//   role: {
-//     textAlign: 'center',
-//     fontSize: 18,
-//     color: '#666',
-//     marginBottom: 16,
-//   },
-//   divider: {
-//     marginVertical: 16,
-//   },
-//   pickerContainer: {
-//     marginBottom: 16,
-//   },
-//   picker: {
-//     height: 50,
-//     width: '100%',
-//   },
-//   loadingIndicator: {
-//     marginTop: 16,
-//   },
-//   subjectItem: {
-//     marginBottom: 12,
-//     paddingBottom: 12,
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#e0e0e0',
-//   },
-//   subjectName: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//   },
-//   subjectDetails: {
-//     fontSize: 14,
-//     color: '#666',
-//   },
-// });
-
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Modal, Alert } from 'react-native';
 import {
   Provider as PaperProvider,
@@ -270,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AuthContext from '../AuthContext';
-import { theme } from '../theme';
+import theme from '../theme';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -296,8 +43,6 @@ const getAcademicYears = (count = 5) => {
 
 export default function ProfileScreen({ navigation }) {
   const { user, logout, updateUser } = useContext(AuthContext);
-  const [currentYear, setCurrentYear] = useState(getCurrentAcademicYear());
-  const [selectedSemester, setSelectedSemester] = useState(user?.sem || "sem1");
 
   const [loading, setLoading] = useState(false);
 
@@ -329,7 +74,6 @@ export default function ProfileScreen({ navigation }) {
       // Close modal
       setIsEditModalVisible(false);
       
-      // Optional: Show success message
       Alert.alert('Success', 'Profile updated successfully');
     } catch (error) {
       console.error('Profile update error:', error);
@@ -478,9 +222,7 @@ export default function ProfileScreen({ navigation }) {
               <Title>Assigned Subjects</Title>
             </View>
             
-            {loading ? (
-              <ActivityIndicator size="large" style={styles.loadingIndicator} />
-            ) : user.subjects.length > 0 ? (
+            { user.subjects.length > 0 ? (
               user.subjects.map((subject, index) => (
                 <View key={index} style={styles.subjectItem}>
                   <View style={styles.subjectDetails}>
@@ -510,7 +252,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 16,
-    backgroundColor: theme.colors.primaryContainer,
+    backgroundColor: theme.colors.inverseOnSurface,
   },
   profileCard: {
     marginBottom: 16,
@@ -614,9 +356,7 @@ const styles = StyleSheet.create({
     color: '#666',
     marginTop: 20,
   },
-  loadingIndicator: {
-    marginTop: 20,
-  },
+
   
   // Modal Styles
   modalContainer: {

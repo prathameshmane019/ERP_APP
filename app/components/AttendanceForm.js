@@ -5,7 +5,7 @@ import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CollapsibleCard from './card';
-import { theme } from '../theme';
+import  theme  from '../theme';
 
 const AttendanceForm = ({
   selectedSubject,

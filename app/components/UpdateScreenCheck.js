@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
-const UpdateCheckScreen = () => {
+export default function UpdateCheckScreen  ()  {
   const router = useRouter();
 
   const navigateToUpdateInfo = () => {
@@ -19,4 +19,3 @@ const UpdateCheckScreen = () => {
   );
 };
 
-export default UpdateCheckScreen;
