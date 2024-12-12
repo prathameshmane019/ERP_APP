@@ -2,12 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import getUserData from './utils/getUser';
+import ErrorBoundary from 'react-native-error-boundary';
 import AttendanceLoader from './components/Loader';
 export default function HomeScreen() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
- 
+
+  const CustomFallback = (props) => (
+    <View>
+      <Text>Something happened!</Text>
+      <Text>{props.error.toString()}</Text>
+      <Button onPress={props.resetError} title={'Try again'} />
+    </View>
+  )
+  
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -40,8 +49,10 @@ export default function HomeScreen() {
   }, [loading, user, router]);
 
   return ( 
+    <ErrorBoundary FallbackComponent={CustomFallback}>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <AttendanceLoader isVisible={true}/>
     </View>
+    </ErrorBoundary>
   );
 }
