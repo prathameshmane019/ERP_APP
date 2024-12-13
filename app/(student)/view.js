@@ -6,6 +6,7 @@ import { DataTable } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AuthContext from '../AuthContext';
 import { Card, Button, Paragraph } from 'react-native-paper';
+import { useRouter } from 'expo-router';
 const StudentAttendanceScreen = () => {
     const [attendanceData, setAttendanceData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -22,7 +23,7 @@ const StudentAttendanceScreen = () => {
         setStudentId(user?.id);
     }, [user]);
 
-    
+    const router = useRouter()
   useEffect(() => {
     if (user) {
       redirectUser(user.role);
