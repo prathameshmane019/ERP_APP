@@ -198,6 +198,8 @@ const styles = StyleSheet.create({
   resetButton: {
     flex: 1,
     marginLeft: theme.spacing.sm,
+    backgroundColor: theme.colors.primary
+
   },
   buttonContent: {
     height: 48,
@@ -205,6 +207,7 @@ const styles = StyleSheet.create({
   buttonLabel: {
     fontSize: theme.fontSize.md,
     fontWeight: 'bold',
+    
   },
 });
 

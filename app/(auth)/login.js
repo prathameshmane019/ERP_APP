@@ -229,6 +229,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     marginTop: theme.spacing.md,
+    backgroundColor:theme.colors.primary
   },
   loginButtonContent: {
     height: 48,

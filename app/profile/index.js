@@ -6,15 +6,12 @@ import {
   Title,
   Text,
   Button,
-  ActivityIndicator,
   Appbar,
   Avatar,
   Divider,
   TextInput,
 } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AuthContext from '../AuthContext';
 import theme from '../theme';

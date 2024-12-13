@@ -5,9 +5,19 @@ import LogoutButton from './components/logout';
 import UpdateCheckScreen from './components/UpdateScreenCheck';
 import { Provider as PaperProvider } from "react-native-paper";
 import { theme } from './theme';
+import ErrorBoundary from 'react-native-error-boundary';
 
 export default function Layout() {
+  const CustomFallback = (props) => (
+    <View>
+      <Text>Something happened!</Text>
+      <Text>{props.error.toString()}</Text>
+      <Button onPress={props.resetError} title={'Try again'} />
+    </View>
+  );
+
   return (
+    <ErrorBoundary FallbackComponent={CustomFallback}>
     <AuthProvider>
       <PaperProvider theme={theme}>
         <Stack
@@ -34,5 +44,6 @@ export default function Layout() {
         </Stack>      
       </PaperProvider>
     </AuthProvider>
+    </ErrorBoundary>
   );
 }

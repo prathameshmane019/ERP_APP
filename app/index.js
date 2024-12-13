@@ -1,38 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import getUserData from './utils/getUser';
 import ErrorBoundary from 'react-native-error-boundary';
 import AttendanceLoader from './components/Loader';
+import AuthContext from './AuthContext';
+
 export default function HomeScreen() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user,loading } = useContext(AuthContext);
+
   const router = useRouter();
+console.log(user);
 
   const CustomFallback = (props) => (
-    <View>
-      <Text>Something happened!</Text>
-      <Text>{props.error.toString()}</Text>
-      <Button onPress={props.resetError} title={'Try again'} />
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>An error occurred</Text>
+      <Text>Error: {props.error.toString()}</Text>
+      <Text>Error Details: {props.error.stack}</Text>
+      <Button onPress={props.resetError} title="Try Again" />
     </View>
-  )
-  
+  );
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await getUserData();
-        setUser(userData);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
+ 
   useEffect(() => {
     if (!loading) {
       if (!user) {
@@ -51,7 +40,7 @@ export default function HomeScreen() {
   return ( 
     <ErrorBoundary FallbackComponent={CustomFallback}>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <AttendanceLoader isVisible={true}/>
+      <AttendanceLoader isVisible={loading}/>
     </View>
     </ErrorBoundary>
   );
