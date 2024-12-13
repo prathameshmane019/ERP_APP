@@ -35,7 +35,8 @@
     "react-native-error-boundary": "^1.2.7",
     "react-native-modal-datetime-picker": "^18.0.0",
     "react-native-paper": "^5.12.5",
-    "react-native-web": "~0.19.13"
+    "react-native-web": "~0.19.13",
+    "@sentry/react-native": "~6.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

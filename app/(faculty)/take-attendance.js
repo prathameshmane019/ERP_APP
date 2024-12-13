@@ -13,6 +13,8 @@ import CollapsibleCard from '../components/card';
 import TGSessionContent from '../components/TGSession';
 import AttendanceLoader from '../components/Loader';
 import AttendanceNotification from '../components/AttendanceAlert';
+import { useContext } from 'react';
+import AuthContext from '../AuthContext';
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 const AttendanceForm = ({
@@ -186,13 +188,17 @@ export default function TakeAttendance() {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 3000);
   };
+  const { user } = useContext(AuthContext);
+ 
   useEffect(() => {
-    const loadProfile = async () => {
-      const userData = await getUserData();
-      setProfile(userData);
-    };
-    loadProfile();
-  }, []);
+    if (user) {
+      setProfile(user)
+      setLoading(false)
+    }
+    else{
+      setLoading(true)
+    }
+  }, [user]);
 
 
   const fetchAvailableSessions = useCallback(async (subjectId, batchId, date) => {

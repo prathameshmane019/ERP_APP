@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Provider as PaperProvider, Button, Text } from 'react-native-paper';
 import axios from 'axios';
@@ -11,6 +11,7 @@ import CollapsibleCard from '../components/card';
 import getUserData from '../utils/getUser';
 import AttendanceNotification from '../components/AttendanceAlert';
 import AttendanceLoader from '../components/Loader';
+import AuthContext from '../AuthContext';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -31,13 +32,18 @@ export default function UpdateAttendance() {
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState(null);
 
+  const { user } = useContext(AuthContext);
+ 
   useEffect(() => {
-    const loadProfile = async () => {
-      const userData = await getUserData();
-      setProfile(userData);
-    };
-    loadProfile();
-  }, []);
+    if (user) {
+      setProfile(user)
+      setLoading(false)
+    }
+    else{
+      setLoading(true)
+    }
+  }, [user]);
+
 
   const showNotification = (message, type) => {
     setNotification({ message, type });
