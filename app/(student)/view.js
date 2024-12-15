@@ -59,7 +59,7 @@ const StudentAttendanceScreen = () => {
             setAttendanceData(response.data);
         } catch (err) {
             setError("Failed to fetch attendance data");
-            console.error(err);
+            // console.error(err);
         } finally {
             setLoading(false);
         }

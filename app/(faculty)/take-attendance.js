@@ -272,12 +272,9 @@ export default function TakeAttendance() {
     };
 
     setLoading(true);
-    try {
-      console.log(attendanceData);
-
+    try { 
       const response = await axios.put(`${API_URL}/api/v2/attendance`, attendanceData);
-      console.log(response);
-
+    
       showNotification("Attendance submitted successfully", "success");
 
       // Reset form

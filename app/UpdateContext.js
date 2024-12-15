@@ -1,6 +1,6 @@
+
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import * as Updates from 'expo-updates';
- 
 
 const UpdateContext = createContext({
   updateInfo: {
@@ -15,7 +15,7 @@ const UpdateContext = createContext({
 });
 
 export const UpdateProvider = ({ children }) => {
-  const [updateInfo, setUpdateInfo] = useState ({
+  const [updateInfo, setUpdateInfo] = useState({
     isUpdateAvailable: false,
     lastChecked: null,
     currentVersion: null,
@@ -79,7 +79,7 @@ export const UpdateProvider = ({ children }) => {
       checkForUpdates,
       performUpdate
     }}>
-      {children}
+      {React.Children.toArray(children)}
     </UpdateContext.Provider>
   );
 };

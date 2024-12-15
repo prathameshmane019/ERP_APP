@@ -190,10 +190,10 @@ export default function ProfileScreen({ navigation }) {
               <Text style={styles.detailText}>{user?.email}</Text>
             </View>
             
-            {user.department && (
+            {user?.department && (
               <View style={styles.detailRow}>
                 <Icon name="office-building" size={20} style={styles.detailIcon} />
-                <Text style={styles.detailText}>{user.department}</Text>
+                <Text style={styles.detailText}>{user?.department || "Department"}</Text>
               </View>
             )}
             
@@ -219,8 +219,8 @@ export default function ProfileScreen({ navigation }) {
               <Title>Assigned Subjects</Title>
             </View>
             
-            { user.subjects.length > 0 ? (
-              user.subjects.map((subject, index) => (
+            { user?.subjects?.length > 0 ? (
+              user?.subjects?.map((subject, index) => (
                 <View key={index} style={styles.subjectItem}>
                   <View style={styles.subjectDetails}>
                     <Text style={styles.subjectName}>{subject.name}</Text>

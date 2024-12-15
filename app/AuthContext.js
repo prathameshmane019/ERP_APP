@@ -1,3 +1,4 @@
+
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -14,6 +15,7 @@ const AuthContext = createContext({
   loading: true,
   login: async () => { },
   logout: async () => { },
+  updateUser: async () => { },
 });
 
 export const AuthProvider = ({ children }) => {
@@ -52,8 +54,6 @@ export const AuthProvider = ({ children }) => {
         password,
         role
       });
-      console.log(data);
-
       // Store token and user data
       await AsyncStorage.setItem('token', data.token);
       const userData = data.user;
@@ -62,34 +62,25 @@ export const AuthProvider = ({ children }) => {
 
       // Set authorization header
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
-
-      console.log("User Profile:", userData);
-      
     } catch (error) {
       console.error('Login error:', error.response?.data || error);
       throw new Error(error.response?.data?.msg || 'Login failed');
     }
   };
+
   const updateUser = async (updatedUserData) => {
     try {
-      // Call API to update user profile
-      console.log(updatedUserData);
-      
       const { data } = await axios.put(`${API_URL}/api/v2/${updatedUserData.role}?_id=${updatedUserData._id}`, updatedUserData);
-
-      console.log("Data after Update:",data);
-      
       const updatedUser = { ...user, ...data };
-      setUser(data);
-
+      setUser(updatedUser);
       await AsyncStorage.setItem('userData', JSON.stringify(updatedUser));
-
       return updatedUser;
     } catch (error) {
       console.error('Profile update error:', error);
       throw new Error((error).response?.data?.msg || 'Failed to update profile');
     }
   };
+
   const logout = async () => {
     try {
       // Remove stored data
@@ -110,8 +101,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout,updateUser }}>
-      {children}
+    <AuthContext.Provider value={{ user, loading, login, logout, updateUser }}>
+      {React.Children.toArray(children)}
     </AuthContext.Provider>
   );
 };

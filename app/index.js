@@ -10,8 +10,6 @@ export default function HomeScreen() {
   const { user,loading } = useContext(AuthContext);
 
   const router = useRouter();
-console.log(user);
-
   const CustomFallback = (props) => (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>An error occurred</Text>

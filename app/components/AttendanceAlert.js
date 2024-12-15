@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import {  Text, StyleSheet, Animated } from 'react-native';
 import { Audio } from 'expo-av';
@@ -99,7 +100,7 @@ export default function AttendanceNotification  ({
         size={24}
         style={styles.icon}
       />
-      <Text style={styles.notificationText}>{message}</Text>
+      <Text style={styles.notificationText}>{message.toString()}</Text>
       <IconButton
         icon="close"
         color="white"
@@ -137,4 +138,3 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
-

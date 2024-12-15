@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Stack } from 'expo-router';
 import { AuthProvider } from './AuthContext';
@@ -6,7 +7,7 @@ import UpdateCheckScreen from './components/UpdateScreenCheck';
 import { Provider as PaperProvider } from "react-native-paper";
 import theme from './theme';
 import ErrorBoundary from 'react-native-error-boundary';
-import ErrorFallbackComponent from './components/ErrorFallback'; // Import the new component
+import ErrorFallbackComponent from './components/ErrorFallback';
 
 export default function Layout() {
   return (
@@ -16,10 +17,10 @@ export default function Layout() {
           <Stack
             screenOptions={{
               headerRight: () => (
-                <>
+                <React.Fragment>
                   <LogoutButton />
                   <UpdateCheckScreen />
-                </>
+                </React.Fragment>
               ),
             }}
           >
