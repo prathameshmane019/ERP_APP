@@ -1,39 +1,57 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, ActivityIndicator, Text } from 'react-native';
+import { View, Button } from 'react-native';  // Added missing Button import
 import { useRouter } from 'expo-router';
-import getUserData from './utils/getUser';
 import ErrorBoundary from 'react-native-error-boundary';
 import AttendanceLoader from './components/Loader';
 import AuthContext from './AuthContext';
 
 export default function HomeScreen() {
-  const { user,loading } = useContext(AuthContext);
-
+  const { user, loading } = useContext(AuthContext);
   const router = useRouter();
+
   const CustomFallback = (props) => (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>An error occurred</Text>
-      <Text>Error: {props.error.toString()}</Text>
-      <Text>Error Details: {props.error.stack}</Text>
-      <Button onPress={props.resetError} title="Try Again" />
+      <Button 
+        onPress={props.resetError} 
+        title="Try Again" 
+      />
     </View>
   );
 
- 
   useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        router.replace('/(auth)/login');
-      } else if (user.role === 'faculty') {
-        router.replace('/(faculty)/menu');
-      } else if (user.role === 'student') {
-        router.replace('/(student)');
-      } else {
-        console.error('Unknown user role:', user?.role);
-        router.replace('/login');
+    const handleRouting = async () => {
+      // Wait for loading to complete before routing
+      if (loading === false) {
+        if (!user) {
+          router.replace('/(auth)/login');
+        } else {
+          switch(user.role) {
+            case 'faculty':
+              router.replace('/(faculty)/menu');
+              break;
+            case 'student':
+              router.replace('/(student)');
+              break;
+            default:
+              console.error('Unknown user role:', user?.role);
+              router.replace('/login');
+          }
+        }
       }
-    }
+    };
+
+    handleRouting();
   }, [loading, user, router]);
+
+  // Ensure loader is shown during loading
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <AttendanceLoader isVisible={true} />
+      </View>
+    );
+  }
 
   return ( 
     <ErrorBoundary FallbackComponent={CustomFallback}>

@@ -8,11 +8,13 @@ import { Provider as PaperProvider } from "react-native-paper";
 import theme from './theme';
 import ErrorBoundary from 'react-native-error-boundary';
 import ErrorFallbackComponent from './components/ErrorFallback';
-
+import { UpdateProvider } from './UpdateContext';
 export default function Layout() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
+       <UpdateProvider> 
       <AuthProvider>
+
         <PaperProvider theme={theme}>
           <Stack
             screenOptions={{
@@ -38,6 +40,7 @@ export default function Layout() {
           </Stack>      
         </PaperProvider>
       </AuthProvider>
+      </UpdateProvider> 
     </ErrorBoundary>
   );
 }
